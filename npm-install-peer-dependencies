@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+NPM_INSTALL_CMD="${NPM_INSTALL_CMD:-npm install --save-dev --save-exact}"
+
 # https://stackoverflow.com/a/246128/465684
 SOURCE="${BASH_SOURCE[0]}"
 # resolve $SOURCE until the file is no longer a symlink
@@ -24,13 +26,21 @@ node -e " \
         console.log(name + '\t' + peerDeps[name]); \
     }); \
     " | {
-    NPM_INSTALL_ARGS=""
+    NPM_PEER_DEPS=""
     while read LINE; do
         NAME=$(echo "${LINE}" | cut -d$'\t' -f1)
-        VER=$(echo "${LINE}" | cut -d$'\t' -f2)
+        VSN=$(echo "${LINE}" | cut -d$'\t' -f2)
+
+        node -p "try {var pkg = require('./node_modules/${NAME}/package.json'); pkg.version === \"${VSN}\"} catch(err){false}" | \
+          grep -q "^false$" || \
+          continue
+
+        node -p "try {var pkg = require('./node_modules/${NAME}/package.json'); pkg._requested && pkg._requested.rawSpec === \"${VSN}\"} catch(err){false}" | \
+          grep -q "^false$" || \
+          continue
 
         # NOTE: assumes all peerDeps have semver vers, not git urls, etc
-        NPM_INSTALL_ARGS="${NPM_INSTALL_ARGS} ${NAME}@${VER}"
+        NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${VSN}"
     done
-    npm install --save-dev --save-exact ${NPM_INSTALL_ARGS}
+    [ -z "${NPM_PEER_DEPS}" ] || ${NPM_INSTALL_CMD} ${NPM_PEER_DEPS}
 }
