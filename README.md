@@ -1,19 +1,19 @@
 # babel-preset-firecloud
 
-In your project's `.babelrc`
+In your project's `.babelrc.js`
 
 ```js
-{
-  "presets": [
-    ["firecloud", {
-      // "debug": false,
-      // "loose": false,
-      // "spec": false,
-      // "useBuiltIns": true,
-      // "preset|plugin": ...options
+module.exports = {
+  presets: [
+    ['firecloud', {
+      // debug: false,
+      // loose: false,
+      // spec: false,
+      // useBuiltIns: true,
+      // 'preset|plugin': {...options}
     }]
-  ],
-}
+  ]
+};
 ```
 
 In order to install the required peer dependencies,
