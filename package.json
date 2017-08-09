@@ -24,6 +24,6 @@
     "babel-runtime": "6.23.0"
   },
   "scripts": {
-    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" -e \"^UNLICENSE$\" | sed \"s/^/'/g\" | sed \"s/$/'/g\")"
+    "test": "eclint check $(git ls-files | grep -v -e \"^package-lock.json$\" -e \"^LICENSE$\" -e \"^UNLICENSE$\")"
   }
 }
