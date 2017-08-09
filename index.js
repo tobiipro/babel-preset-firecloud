@@ -26,6 +26,7 @@ var presets = {
 };
 
 var plugins = {
+  'babel-plugin-preval': undefined,
   'babel-plugin-syntax-async-functions': undefined,
   'babel-plugin-syntax-dynamic-import': undefined,
   'babel-plugin-transform-async-to-module-method': undefined,

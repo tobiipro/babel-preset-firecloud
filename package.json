@@ -4,6 +4,7 @@
   "version": "0.0.2",
   "license": "Unlicense",
   "dependencies": {
+    "babel-plugin-preval": "1.4.2",
     "babel-plugin-syntax-async-functions": "6.13.0",
     "babel-plugin-syntax-dynamic-import": "6.18.0",
     "babel-plugin-transform-async-to-module-method": "6.24.1",
