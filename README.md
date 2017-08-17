@@ -1,4 +1,4 @@
-# babel-preset-firecloud
+# babel-preset-firecloud [![Build Status][2]][1]
 
 In your project's `.babelrc.js`
 
@@ -50,3 +50,7 @@ Included presets/plugins can be
 ## License
 
 [UNLICENSE](UNLICENSE)
+
+
+  [1]: https://travis-ci.org/tobiipro/babel-preset-firecloud
+  [2]: https://travis-ci.org/tobiipro/babel-preset-firecloud.svg?branch=master
