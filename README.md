@@ -16,8 +16,8 @@ module.exports = {
 };
 ```
 
-In order to install the required peer dependencies,
-you can run `node_modules/babel-preset-firecloud/npm-install-peer-dependencies`.
+Optionally, you can run `node_modules/babel-preset-firecloud/npm-install-peer-dependencies`
+in order to install the required peer dependencies.
 
 
 ## Options
