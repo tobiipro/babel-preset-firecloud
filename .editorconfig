@@ -11,6 +11,3 @@ max_line_length = 120
 
 [npm-install-peer-dependencies]
 max_line_length = 1024
-
-[.npmignore]
-insert_final_newline = false # remove if .npmignore isn't empty
