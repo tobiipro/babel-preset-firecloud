@@ -1,12 +1,18 @@
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+/
+cache:
+  directories:
+    - node_modules
+install:
+  - make deps
+script:
+  - make
+  - make test
+
+dist: trusty
 sudo: false
 language:
   - node_js
 node_js:
   - node
-cache:
-  directories:
-    - node_modules
-install:
-  - npm install
-script:
-  - npm test

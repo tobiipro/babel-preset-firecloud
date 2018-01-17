@@ -1,13 +1,17 @@
 root = true
 
 [*]
-indent_style = space
-indent_size = 2
-end_of_line = lf # let .gitattributes manage the conversion
-insert_final_newline = true
 charset = utf-8
-trim_trailing_whitespace = true
+end_of_line = lf # let .gitattributes manage the conversion
+indent_size = 2
+indent_style = space
+insert_final_newline = true
 max_line_length = 120
+trim_trailing_whitespace = true
+
+[Makefile]
+indent_size = 4
+indent_style = tab
 
 [npm-install-peer-dependencies]
 max_line_length = 1024
