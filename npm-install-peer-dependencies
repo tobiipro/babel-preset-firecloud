@@ -32,7 +32,7 @@ node -e " \
         VSN=$(echo "${LINE}" | cut -d$'\t' -f2)
 
         # is the version already specified in dependencies or devDependencies?
-        node -p "try {var pkg = require('./package.json'); var vsn = pkg.dependencies[\"${NAME}\"].version || pkg.devDependencies[\"${NAME}\"].version; vsn === \"${VSN}\"} catch(err){false}" | \
+        node -p "try {var pkg = require('./package.json'); var vsn = pkg.dependencies[\"${NAME}\"] || pkg.devDependencies[\"${NAME}\"]; vsn === \"${VSN}\"} catch(err){false}" | \
             grep -q "^false$" || {
           echo ${NAME} ${VSN}
           # if yes, is it already installed?
