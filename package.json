@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "babel-preset-firecloud",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "license": "Unlicense",
   "dependencies": {
     "babel-plugin-preval": "1.6.3",
