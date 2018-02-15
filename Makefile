@@ -18,9 +18,21 @@ all: deps build
 deps:
 	npm install
 
+
 .PHONY: build
 build: deps
+
 
 .PHONY: test
 test:
 	npm test
+
+
+.PHONY: version
+version:
+	npm version patch
+
+
+.PHONY: publish
+publish: version
+	git push origin v`cat "package.json" | json "version"`
