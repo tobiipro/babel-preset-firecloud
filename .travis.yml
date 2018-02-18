@@ -15,6 +15,7 @@ language:
 node_js:
   - node
 
+os: linux
 dist: trusty
 sudo: false
 
