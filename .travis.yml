@@ -10,12 +10,13 @@ script:
   - make
   - make test
 
-dist: trusty
-sudo: false
 language:
   - node_js
 node_js:
   - node
+
+dist: trusty
+sudo: false
 
 notifications:
   slack:
