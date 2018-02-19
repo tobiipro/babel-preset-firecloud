@@ -64,7 +64,7 @@ module.exports = function(context, options) {
         browsers: [
           'last 2 Chrome versions'
         ],
-        node: 'latest'
+        node: 'current'
       }
     },
 
