@@ -83,16 +83,7 @@ module.exports = function(context, options) {
     },
 
     'babel-plugin-transform-async-to-module-method': {
-      disabled: (function() {
-        var noAsync = isPluginRequired(
-          options['babel-preset-env'].targets,
-          'transform-async-to-generator'
-        );
-
-        if (!noAsync) {
-          return !noAsync;
-        }
-      })()
+      disabled: true
     },
 
     'babel-plugin-transform-object-rest-spread': {
@@ -100,11 +91,28 @@ module.exports = function(context, options) {
     }
   });
 
-  if (_.get(options, 'babel-plugin-transform-async-to-module-method.disabled') !== true) {
-    options['babel-preset-env'].include = options['babel-preset-env'].include || [];
-    options['babel-preset-env'].include.push('transform-es2015-classes');
+  var asyncToGeneratorIsRequired = isPluginRequired(
+    options['babel-preset-env'].targets,
+    'transform-async-to-generator'
+  );
+
+  if (asyncToGeneratorIsRequired) {
+    // enable preferred plugin for supporting async/await syntax
+    options['babel-plugin-transform-async-to-module-method'].disabled = false;
+  }
+
+  var isAsyncToModuleMethodEnabled =
+    _.get(options, 'babel-plugin-transform-async-to-module-method.disabled') !== true;
+
+  if (isAsyncToModuleMethodEnabled) {
+    // disable vanilla plugin for supporting async/await syntax
+    // the same work is done now by 'babel-plugin-transform-async-to-module-method'
     options['babel-preset-env'].exclude = options['babel-preset-env'].exclude || [];
     options['babel-preset-env'].exclude.push('transform-async-to-generator');
+
+    // enable support for async/await class methods
+    options['babel-preset-env'].include = options['babel-preset-env'].include || [];
+    options['babel-preset-env'].include.push('transform-es2015-classes');
   }
 
   _.each(options, function(_options, name) {
