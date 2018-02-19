@@ -35,6 +35,11 @@ var plugins = {
   'babel-plugin-transform-object-rest-spread': undefined
 };
 
+var localPlugins = {
+  './plugins/babel-plugin-firecloud-export-all': undefined,
+  './plugins/babel-plugin-firecloud-src-arg': undefined
+};
+
 presets = _.mapValues(presets, function(preset, name) {
   preset = require(name);
   if (preset.__esModule) {
@@ -50,6 +55,17 @@ plugins = _.mapValues(plugins, function(plugin, name) {
   }
   return plugin;
 });
+
+localPlugins = _.mapValues(localPlugins, function(plugin, key) {
+  plugin = require(key);
+  return plugin;
+});
+
+localPlugins = _.mapKeys(localPlugins, function(_plugin, key) {
+  return key.match(/.*\/(.*)$/)[1]; //
+});
+
+_.merge(plugins, localPlugins);
 
 module.exports = function(context, options) {
   options = _.defaults(options || {}, {
