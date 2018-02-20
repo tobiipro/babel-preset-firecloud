@@ -19,6 +19,19 @@ module.exports = {
 Optionally, you can run `node_modules/babel-preset-firecloud/npm-install-peer-dependencies`
 in order to install the required peer dependencies.
 
+**NOTE** If you're using an earlier version than Babel 7.0, you can upgrade your `.babelrc` to be dynamic
+and use `.babelrc.js` by setting it to:
+
+```json
+{
+  "preset": [
+    "./.babelrc.js"
+  ]
+}
+```
+
+See https://fatfisz.com/blog/using-babelrc-js-today .
+
 
 ## Options
 
