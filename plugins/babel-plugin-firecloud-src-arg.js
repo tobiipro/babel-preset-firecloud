@@ -56,8 +56,8 @@ let isSrcFun = function(path) {
   return false;
 }
 
-module.exports = function() {
-  let t = arguments[0].types;
+module.exports = function(api, options) {
+  let t = api.types;
 
   return {
     visitor: {
