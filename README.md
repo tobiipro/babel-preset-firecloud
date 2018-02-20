@@ -31,14 +31,19 @@ Included presets/plugins can be
 - disabled by sending `{"disabled": true}` as `options`
 
 
-## Custom plugins
+## Firecloud plugins
 
-### `babel-plugin-firecloud-export-all`
+### `babel-plugin-firecloud-export-all` (default: disabled)
 
 Makes all top-level module definitions exported (adding `export` keyword to declaration).
-More than that, all references to these variables will be replaced with `exports.<reference>`.
 
-So, code like this:
+Additionally all references to these variables will be replaced with `exports.<reference>`.
+This is a closer behaviour to ES6 export bindings,
+where changing the exported value outside of the module would make the change reflect inside the module.
+See http://2ality.com/2015/07/es6-module-exports.html .
+
+In:
+
 ```js
 let _a = 5;
 
@@ -47,7 +52,7 @@ let foo = function() {
 }
 ```
 
-will be transformed to:
+Out:
 
 ```js
 export let _a = 5;
@@ -57,15 +62,11 @@ export let foo = function() {
 }
 ```
 
-This gives a possibility to change the exported value outside the module and see the change inside.
-
-Negative side-effect: while debugging Chrome won't be able to get a value of variable,
-because in the source map it will be pointing to `exports.something`, while you still
-look (point with mouse) at `something`.
-
-**DISABLED BY DEFAULT**
+**NOTE** A negative side-effect. While debugging, Chrome won't be able to get the value of an exported variable,
+because the source map will reference `exports.something`, while you still hover `something`.
 
 To enable in `.babelrc.js`:
+
 ```js
 module.exports = {
   presets: [
@@ -78,15 +79,12 @@ module.exports = {
 };
 ```
 
-### `babel-plugin-firecloud-src-arg`
+### `babel-plugin-firecloud-src-arg` (disabled by default)
 
-Adds extra argument with info about location (file/line/column) to calls of a logger.
-
-*ToDo*: customize logger functions definitions. Right now uses logger method names and conventions from ATEX-web-ext.
-
-**DISABLED BY DEFAULT**
+Adds an extra argument with info about location (file/line/column) to calls of a function e.g. logger.
 
 To enable in `.babelrc.js`:
+
 ```js
 module.exports = {
   presets: [
