@@ -2,8 +2,8 @@
 
 let _ = require('lodash');
 
-module.exports = function(api, _options) {
-  let t = api.types;
+module.exports = function() {
+  let t = arguments[0].types;
 
   let log = function() {
     // console.log.apply(console.log, arguments)
