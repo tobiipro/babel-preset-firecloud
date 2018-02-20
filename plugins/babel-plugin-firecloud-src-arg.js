@@ -3,41 +3,7 @@
 
 let _ = require('lodash');
 
-// copied from src/core/log/logger.js
-let levels = {
-  // https://tools.ietf.org/html/rfc3164 (multiplier 10)
-  emergency: 0,
-  alert: 10,
-  critical: 20,
-  error: 30,
-  warning: 40,
-  notice: 50,
-  informational: 60,
-  debug: 70,
-
-  // console
-  warn: 40, // warning
-  info: 60, // informational
-  trace: 80,
-
-  // alias
-  fatal: 0, // emergency
-  verbose: 70, // debug
-  silly: 80
-};
-
-let srcFuns = [];
-srcFuns = srcFuns.concat(_.map(_.keys(levels), function(level) {
-  return '_log.' + level;
-}))
-srcFuns = srcFuns.concat(_.map(_.keys(levels), function(level) {
-  return '_log.local.' + level;
-}))
-srcFuns = srcFuns.concat(_.map(srcFuns, function(fun) {
-  return 'exports.' + fun;
-}))
-
-let isSrcFun = function(path) {
+let isSrcFun = function({path, srcFuns}) {
   let c = path.get('callee');
 
   if (c.node.type === 'Identifier') {
@@ -59,10 +25,14 @@ let isSrcFun = function(path) {
 module.exports = function() {
   let t = arguments[0].types;
 
+  let srcFuns = _.once(function(options) {
+    return _.result(options, 'srcFuns');
+  });
+
   return {
     visitor: {
-      CallExpression: function(path, options) {
-        if (!isSrcFun(path)) {
+      CallExpression: function(path, state) {
+        if (!isSrcFun({path, srcFuns: srcFuns(state.opts)})) {
           return;
         }
 
