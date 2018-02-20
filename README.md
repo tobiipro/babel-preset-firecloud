@@ -31,6 +31,74 @@ Included presets/plugins can be
 - disabled by sending `{"disabled": true}` as `options`
 
 
+## Custom plugins
+
+### `babel-plugin-firecloud-export-all`
+
+Makes all top-level module definitions exported (adding `export` keyword to declaration). More than that, all references to these variables will be replaced with `exports.<reference>`.
+
+So, code like this:
+```js
+let _a = 5;
+
+let foo = function() {
+  return _a;
+}
+```
+
+will be transformed to:
+
+```js
+export let _a = 5;
+
+export let foo = function() {
+   return exports._a;
+}
+```
+
+This gives a possibility to change the exported value outside the module and see the change inside.
+
+Negative side-effect: while debugging Chrome won't be able to get a value of variable,
+because in the source map it will be pointing to `exports.something`, while you still
+look (point with mouse) at `something`.
+
+**DISABLED BY DEFAULT**
+
+To enable in `.babelrc.js`:
+```js
+module.exports = {
+  presets: [
+    ['firecloud', {
+      'babel-plugin-firecloud-export-all': {
+        disabled: false
+      }
+    }]
+  ]
+};
+```
+
+### `babel-plugin-firecloud-src-arg`
+
+Adds extra argument with info about location (file/line/column) to calls of a logger.
+
+*ToDo*: customize logger functions definitions. Right now uses logger method names and conventions from ATEX-web-ext.
+
+**DISABLED BY DEFAULT**
+
+To enable in `.babelrc.js`:
+```js
+module.exports = {
+  presets: [
+    ['firecloud', {
+      'babel-plugin-firecloud-src-arg': {
+        disabled: false
+      }
+    }]
+  ]
+};
+```
+
+
 ## Notable plugins (not included)
 
 1. https://github.com/kmagiera/babel-watch

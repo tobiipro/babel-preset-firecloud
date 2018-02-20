@@ -1,3 +1,5 @@
+// Transforms all top-level variables to be exported + appends "exports." to all references on them
+
 /* eslint-disable */
 var _ = require('lodash');
 
