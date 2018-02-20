@@ -1,17 +1,17 @@
-var _ = require('lodash');
+let _ = require('lodash');
 
-var isPluginRequired = function(targets, pluginName) {
-  var targetsParser = require('babel-preset-env/lib/targets-parser').default;
-  var isPluginRequired = require('babel-preset-env').isPluginRequired;
-  var pluginToMinTargets = require('babel-preset-env/data/plugins.json');
+let isPluginRequired = function(targets, pluginName) {
+  let targetsParser = require('babel-preset-env/lib/targets-parser').default;
+  let isPluginRequired = require('babel-preset-env').isPluginRequired;
+  let pluginToMinTargets = require('babel-preset-env/data/plugins.json');
 
   targets = targetsParser(targets);
-  var result = isPluginRequired(targets, pluginToMinTargets[pluginName]);
+  let result = isPluginRequired(targets, pluginToMinTargets[pluginName]);
   return result;
 };
 
-var hasBeenLogged = false;
-var debug = function(options) {
+let hasBeenLogged = false;
+let debug = function(options) {
   if (!options.debug || hasBeenLogged) {
     return;
   }
@@ -21,11 +21,11 @@ var debug = function(options) {
   console.log(JSON.stringify({options: options}, null, 2));
 };
 
-var presets = {
+let presets = {
   'babel-preset-env': undefined
 };
 
-var plugins = {
+let plugins = {
   'babel-plugin-preval': undefined,
   'babel-plugin-syntax-async-functions': undefined,
   'babel-plugin-syntax-dynamic-import': undefined,
@@ -35,9 +35,9 @@ var plugins = {
   'babel-plugin-transform-object-rest-spread': undefined
 };
 
-var localPlugins = {
-  './plugins/babel-plugin-firecloud-export-all': undefined,
-  './plugins/babel-plugin-firecloud-src-arg': undefined
+let firecloudPlugins = {
+  'babel-plugin-firecloud-export-all': undefined,
+  'babel-plugin-firecloud-src-arg': undefined
 };
 
 presets = _.mapValues(presets, function(preset, name) {
@@ -56,16 +56,12 @@ plugins = _.mapValues(plugins, function(plugin, name) {
   return plugin;
 });
 
-localPlugins = _.mapValues(localPlugins, function(plugin, key) {
-  plugin = require(key);
+firecloudPlugins = _.mapValues(firecloudPlugins, function(plugin, key) {
+  plugin = require(`./plugins/${key}`);
   return plugin;
 });
 
-localPlugins = _.mapKeys(localPlugins, function(_plugin, key) {
-  return key.match(/.*\/(.*)$/)[1]; //
-});
-
-_.merge(plugins, localPlugins);
+_.merge(plugins, firecloudPlugins);
 
 module.exports = function(context, options) {
   options = _.defaults(options || {}, {
@@ -117,7 +113,7 @@ module.exports = function(context, options) {
     }
   });
 
-  var asyncToGeneratorIsRequired = isPluginRequired(
+  let asyncToGeneratorIsRequired = isPluginRequired(
     options['babel-preset-env'].targets,
     'transform-async-to-generator'
   );
@@ -127,7 +123,7 @@ module.exports = function(context, options) {
     options['babel-plugin-transform-async-to-module-method'].disabled = false;
   }
 
-  var isAsyncToModuleMethodEnabled =
+  let isAsyncToModuleMethodEnabled =
     _.get(options, 'babel-plugin-transform-async-to-module-method.disabled') !== true;
 
   if (isAsyncToModuleMethodEnabled) {
@@ -164,8 +160,8 @@ module.exports = function(context, options) {
 
   debug(options);
 
-  var configPresets = _.filter(_.map(presets, function(preset, name) {
-    var disabled = _.get(options, name + '.disabled');
+  let configPresets = _.filter(_.map(presets, function(preset, name) {
+    let disabled = _.get(options, name + '.disabled');
     switch (disabled) {
     case true:
       return false;
@@ -177,8 +173,8 @@ module.exports = function(context, options) {
     return preset(context, options[name]);
   }), Boolean);
 
-  var configPlugins = _.filter(_.map(plugins, function(plugin, name) {
-    var disabled = _.get(options, name + '.disabled');
+  let configPlugins = _.filter(_.map(plugins, function(plugin, name) {
+    let disabled = _.get(options, name + '.disabled');
     switch (disabled) {
     case true:
       return false;
@@ -190,7 +186,7 @@ module.exports = function(context, options) {
     return [plugin, options[name]];
   }), Boolean);
 
-  var config = {
+  let config = {
     presets: configPresets,
     plugins: configPlugins
   }

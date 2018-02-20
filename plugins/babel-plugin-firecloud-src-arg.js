@@ -1,12 +1,10 @@
-/* eslint-disable */
-
 // fork of https://github.com/furstenheim/babel-plugin-meaningful-logs
 // ISC: Copyright 2016 Gabriel Fürstenheim <furstenheim@gmail.com>
 
-var _ = require('lodash');
+let _ = require('lodash');
 
 // copied from src/core/log/logger.js
-var levels = {
+let levels = {
   // https://tools.ietf.org/html/rfc3164 (multiplier 10)
   emergency: 0,
   alert: 10,
@@ -28,7 +26,7 @@ var levels = {
   silly: 80
 };
 
-var srcFuns = [];
+let srcFuns = [];
 srcFuns = srcFuns.concat(_.map(_.keys(levels), function(level) {
   return '_log.' + level;
 }))
@@ -39,8 +37,8 @@ srcFuns = srcFuns.concat(_.map(srcFuns, function(fun) {
   return 'exports.' + fun;
 }))
 
-var isSrcFun = function(path) {
-  var c = path.get('callee');
+let isSrcFun = function(path) {
+  let c = path.get('callee');
 
   if (c.node.type === 'Identifier') {
     // NOTE matchesPattern above doesn't work. Bug?!
@@ -68,11 +66,11 @@ module.exports = function() {
           return;
         }
 
-        var filePath = this.file.log.filename;
-        var cwd;
-        var relativePath;
-        var line;
-        var column;
+        let filePath = this.file.log.filename;
+        let cwd;
+        let relativePath;
+        let line;
+        let column;
 
         if (filePath.charAt(0) !== '/') {
           relativePath = filePath;
@@ -85,12 +83,12 @@ module.exports = function() {
         column = path.node.loc.start.column + 1;
         // TODO get function name
 
-        var src = t.objectExpression([
+        let src = t.objectExpression([
           t.objectProperty(t.identifier('file'), t.stringLiteral(relativePath)),
           t.objectProperty(t.identifier('line'), t.numericLiteral(line)),
           t.objectProperty(t.identifier('column'), t.numericLiteral(column))
         ]);
-        var srcArg = t.objectExpression([
+        let srcArg = t.objectExpression([
           t.objectProperty(t.identifier('_babelSrc'), src)
         ]);
         path.node.arguments.unshift(srcArg);

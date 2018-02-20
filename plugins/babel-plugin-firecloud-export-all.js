@@ -1,7 +1,6 @@
-// Transforms all top-level variables to be exported + appends "exports." to all references on them
+// Transforms all top-level variables to be exported + appends "exports." to all references of them
 
-/* eslint-disable */
-var _ = require('lodash');
+let _ = require('lodash');
 
 module.exports = function() {
   let t = arguments[0].types;

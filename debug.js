@@ -1,8 +1,7 @@
-//
 // This file is launched with "Debug" launch option
-// @ToDo: replace with proper tests
+// TODO replace with proper tests
 
-var preset = require('./index');
+let preset = require('./index');
 
 let context = {
 };
