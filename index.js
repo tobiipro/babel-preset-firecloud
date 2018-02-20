@@ -173,18 +173,18 @@ module.exports = function(context, options) {
     return preset(context, options[name]);
   }), Boolean);
 
-  let configPlugins = _.filter(_.map(plugins, function(plugin, name) {
+  let configPlugins = _.without(_.map(plugins, function(plugin, name) {
     let disabled = _.get(options, name + '.disabled');
     switch (disabled) {
     case true:
-      return false;
+      return undefined;
     case false:
       delete options[name].disabled;
       break;
     }
 
     return [plugin, options[name]];
-  }), Boolean);
+  }), undefined);
 
   let config = {
     presets: configPresets,
