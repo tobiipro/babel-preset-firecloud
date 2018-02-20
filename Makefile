@@ -11,7 +11,7 @@ SHELL := bash
 # ------------------------------------------------------------------------------
 
 .PHONY: all
-all: deps build
+all: deps build check
 
 
 .PHONY: deps
@@ -23,9 +23,13 @@ deps:
 build: deps
 
 
-.PHONY: test
-test:
+.PHONY: check
+check:
 	npm test
+
+
+.PHONY: test
+test: check
 
 
 .PHONY: version
