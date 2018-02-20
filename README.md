@@ -35,7 +35,8 @@ Included presets/plugins can be
 
 ### `babel-plugin-firecloud-export-all`
 
-Makes all top-level module definitions exported (adding `export` keyword to declaration). More than that, all references to these variables will be replaced with `exports.<reference>`.
+Makes all top-level module definitions exported (adding `export` keyword to declaration).
+More than that, all references to these variables will be replaced with `exports.<reference>`.
 
 So, code like this:
 ```js
@@ -52,7 +53,7 @@ will be transformed to:
 export let _a = 5;
 
 export let foo = function() {
-   return exports._a;
+  return exports._a;
 }
 ```
 
