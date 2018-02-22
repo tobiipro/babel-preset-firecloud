@@ -1,5 +1,7 @@
 # babel-preset-firecloud [![Build Status][2]][1]
 
+The Babel preset used within Tobii Cloud Services.
+
 In your project's `.babelrc.js`
 
 ```js
