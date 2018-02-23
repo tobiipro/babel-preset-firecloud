@@ -38,5 +38,5 @@ version:
 
 
 .PHONY: publish
-publish: version
+publish:
 	git push origin v`cat "package.json" | json "version"`
