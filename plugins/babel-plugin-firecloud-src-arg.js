@@ -25,14 +25,18 @@ let isSrcFun = function({path, srcFuns}) {
 module.exports = function() {
   let t = arguments[0].types;
 
-  let srcFuns = _.once(function(options) {
+  let getSrcFuns = _.once(function(options) {
     return _.result(options, 'srcFuns');
   });
 
   return {
     visitor: {
       CallExpression: function(path, state) {
-        if (!isSrcFun({path, srcFuns: srcFuns(state.opts)})) {
+        let srcFuns = getSrcFuns(state.opts);
+        if (_.isEmpty(srcFuns)) {
+          return;
+        }
+        if (!isSrcFun({path, srcFuns})) {
           return;
         }
 
