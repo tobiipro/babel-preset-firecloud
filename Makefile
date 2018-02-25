@@ -1,42 +1,17 @@
-# from git://github.com/andreineculau/core.inc.mk:core.inc.mk
+ifeq (,$(wildcard support-firecloud/Makefile))
+INSTALL_SUPPORT_FIRECLOUD := $(shell git submodule update --init --recursive support-firecloud)
+ifneq (,$(filter undefine,$(.FEATURES)))
+undefine INSTALL_SUPPORT_FIRECLOUD
+endif
+endif
 
-SHELL := bash
-# .SHELLFLAGS := -euo pipefail -O globstar -c # BASH v4
-.SHELLFLAGS := -euo pipefail -c
-.DEFAULT_GOAL := all
-.DELETE_ON_ERROR:
-.SUFFIXES:
-.NOTPARALLEL:
+include support-firecloud/repo/mk/js.common.node.mk
+include support-firecloud/repo/mk/js.lint.eslint.mk
+include support-firecloud/repo/mk/js.publish.tag.mk
 
 # ------------------------------------------------------------------------------
 
-.PHONY: all
-all: deps build check
+SF_CHECK_TARGETS := \
+	lint-ec \
 
-
-.PHONY: deps
-deps:
-	npm install
-
-
-.PHONY: build
-build: deps
-
-
-.PHONY: check
-check:
-	npm test
-
-
-.PHONY: test
-test: check
-
-
-.PHONY: version
-version:
-	npm version patch
-
-
-.PHONY: publish
-publish:
-	git push origin v`cat "package.json" | json "version"`
+# ------------------------------------------------------------------------------
