@@ -4,6 +4,12 @@
   "description": "The Babel preset used within Tobii Cloud Services.",
   "version": "0.0.9",
   "license": "Unlicense",
+  "peerDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-core": "6.26.0",
+    "babel-register": "6.26.0",
+    "babel-runtime": "6.26.0"
+  },
   "dependencies": {
     "babel-plugin-preval": "1.6.3",
     "babel-plugin-syntax-async-functions": "6.13.0",
@@ -17,11 +23,5 @@
   },
   "devDependencies": {
     "eclint": "2.6.0"
-  },
-  "peerDependencies": {
-    "babel-cli": "6.26.0",
-    "babel-core": "6.26.0",
-    "babel-register": "6.26.0",
-    "babel-runtime": "6.26.0"
   }
 }
