@@ -34,7 +34,7 @@ node -e " \
         # is the version already specified in dependencies or devDependencies?
         node -p "try { \
             var pkg = require('./package.json'); \
-            var vsn = pkg.dependencies[\"${NAME}\"] || pkg.devDependencies[\"${NAME}\"]; \
+            var vsn = (pkg.dependencies || {})[\"${NAME}\"] || (pkg.devDependencies || {})[\"${NAME}\"]; \
             vsn === \"${VSN}\"; \
             } catch(err){false}" | \
             grep -q "^false$" || {
@@ -49,7 +49,7 @@ node -e " \
           # if yes, is it already installed (range spec)?
           node -p "try { \
               var pkg = require('./node_modules/${NAME}/package.json'); \
-              pkg._requested && pkg._requested.rawSpec === \"${VSN}\"; \
+              (pkg._requested || {}).rawSpec === \"${VSN}\"; \
               } catch(err){false}" | \
               grep -q "^false$" || \
               continue
