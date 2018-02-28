@@ -1,30 +1,4 @@
-branches:
-  except:
-    - /^f\//
-cache:
-  directories:
-    - /tmp/support-firecloud.cache
-    - $HOME/.local
-    - $HOME/.npm
-    - $HOME/.pip-cache/
-    - $HOME/Library/Caches/Homebrew
-    - node_modules
-before_install:
-  - support-firecloud/ci/linux-nosudo/bootstrap
-install:
-  - make deps
-script:
-  - make
-
-language:
-  - node_js
-node_js:
-  - node
-
-os: linux
-dist: trusty
-sudo: false
-
+# 1. Notifications
 notifications:
   slack:
     rooms:
@@ -32,3 +6,45 @@ notifications:
       - secure: "P/1924krTEOHaJbuEWjGzlt9VGrrdjz8Yv3L44eqpOmTFMUHvZUUgPPlCBig+wL8Ab6JmVFRpkY28pT/3G/OxaF5RI5JGykmDFeAYSSpRPE7T9Kwne0Ei4PtP9SZlobI/aNOjc/pgVkxTdNN+yZktjeki22Ee8Em/IfBmS2wfCrLRJUpkhPM2Mk8trrifsJykfDp38uqhDGOgRdZRdSpfwwXGUyQA2VfP+MsRmGFOsf2u04DRwM303HxlJTxKYx0ysUUTf1M8sdd3gzsIGndr2NTd6KDRb/GjwZU8zr2OPhKp7LoxNg+s422WS6y2tyaSRqA+uTCntMzFjySlT7as6VmJnz3kSMg5yXEN8SAHL+fqbpzw2cNmmJ7q6UKs0lW4dQvJo+W89tor+sK14gb9sM1VBh+HQH6uHy1Bb007HgEWZtiIhbdlQypxFf/sj1PsshMxHDsAvg5ryKQgadNBjzunlIfN08ekQDXNKaZhvWagoQGiH6EmpDlOfFX57Tk/zI5aeG9A9uKOf+IHDdHlSnZQV42WF3YiBY48tjHDRczmQZTylbPCNL+P8szoUbXgnaedhhh24kZQa2G5nkprSMzd6ed+BRZ1D/iIryBCYWEj2nV80dEZ5Ys17Y5Lg5Uj7+HidDdbkB4O7Ajym044nBf1gmZZc2ViBWW691hMf4=" # cloud-ci
     on_success: change
     on_pull_requests: false
+
+# 2. Env
+# env:
+
+# 3. Git
+# git:
+branches:
+  except:
+    - /^f\// # feature branches require PR
+
+# 4. Bootstrap
+os: linux
+dist: trusty
+sudo: false
+language:
+  - node_js
+node_js:
+  - node
+# addons:
+before_cache: ./.travis.sh before_cache
+cache:
+  directories:
+    - $HOME/.local
+    - $HOME/.npm
+    - $HOME/.pip-cache/
+    - $HOME/Library/Caches/Homebrew
+    - /tmp/support-firecloud.cache
+    - node_modules
+
+# 5. Steps
+before_install: ./.travis.sh before_install
+install: ./.travis.sh install
+before_script: ./.travis.sh before_script
+script: ./.travis.sh script
+after_success: ./.travis.sh after_success
+after_failure: ./.travis.sh after_failure
+after_script: ./.travis.sh after_script
+
+# 6. Deploy
+before_deploy: ./.travis.sh before_deploy
+# deploy:
+after_deploy: ./.travis.sh after_deploy
