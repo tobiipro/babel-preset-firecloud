@@ -4,6 +4,11 @@
   "description": "The Babel preset used within Tobii Cloud Services.",
   "version": "0.1.0",
   "license": "Unlicense",
+  "files": [
+    "/index.js",
+    "/npm-install-peer-dependencies",
+    "/plugins/"
+  ],
   "peerDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
