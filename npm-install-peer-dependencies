@@ -4,16 +4,16 @@ set -euo pipefail
 NPM_INSTALL_CMD="${NPM_INSTALL_CMD:-npm install --save-dev --save-exact}"
 
 # https://stackoverflow.com/a/246128/465684
-SOURCE="${BASH_SOURCE[0]}"
+SOURCE=${BASH_SOURCE[0]}
 # resolve $SOURCE until the file is no longer a symlink
-while [ -h "$SOURCE" ]; do
-  DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-  SOURCE="$(readlink "$SOURCE")"
-  # if $SOURCE was a relative symlink,
-  # we need to resolve it relative to the path where the symlink file was located
-  [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+while [[ -h ${SOURCE} ]]; do
+  DIR=$(cd -P $(dirname ${SOURCE}) && pwd)
+  SOURCE=$(readlink ${SOURCE})
+  # if $SOURCE was a relative symlink
+  # we need to resolve it relative to the path where the symlink file was locate
+  [[ ${SOURCE} != /* ]] && SOURCE=${DIR}/${SOURCE}
 done
-DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+DIR=$(cd -P $(dirname ${SOURCE}) && pwd)
 
 function exe() {
     echo "$(pwd)\$ $@"
@@ -26,10 +26,10 @@ node -e " \
         console.log(name + '\t' + peerDeps[name]); \
     }); \
     " | {
-    NPM_PEER_DEPS=""
+    NPM_PEER_DEPS=
     while read LINE; do
-        NAME=$(echo "${LINE}" | cut -d$'\t' -f1)
-        VSN=$(echo "${LINE}" | cut -d$'\t' -f2)
+        NAME=$(echo "${LINE}" | cut -d $'\t' -f 1)
+        VSN=$(echo "${LINE}" | cut -d $'\t' -f 2)
 
         # is the version already specified in dependencies or devDependencies?
         node -p "try { \
