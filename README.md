@@ -95,11 +95,11 @@ module.exports = {
 };
 ```
 
-### `babel-plugin-firecloud-src-arg` (default: disabled)
+### `babel-plugin-firecloud-src-arg` (default: config-needed)
 
 Adds an extra argument with info about location (file/line/column) to calls of a function e.g. logger.
 
-To enable in `.babelrc.js`:
+To configure in `.babelrc.js`:
 
 ```js
 // provide a static list of function calls to amend with src information
@@ -122,8 +122,21 @@ module.exports = {
   presets: [
     ['firecloud', {
       'babel-plugin-firecloud-src-arg': {
-        disabled: false,
         srcFuns
+      }
+    }]
+  ]
+};
+```
+
+To disable in `.babelrc.js`:
+
+```js
+module.exports = {
+  presets: [
+    ['firecloud', {
+      'babel-plugin-firecloud-src-arg': {
+        disabled: true
       }
     }]
   ]
