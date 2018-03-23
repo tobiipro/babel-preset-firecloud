@@ -48,7 +48,7 @@ Included presets/plugins can be
 
 ## Firecloud plugins
 
-### `babel-plugin-firecloud-export-all` (default: disabled)
+### `babel-plugin-firecloud-export-all` (default: enabled)
 
 Makes all top-level module definitions exported (adding `export` keyword to declaration).
 
@@ -79,22 +79,10 @@ export let foo = function() {
 
 **NOTE** A negative side-effect. While debugging, Chrome won't be able to get the value of an exported variable,
 because the source map will reference `exports.something`, while you still hover `something`.
+Tracked in https://github.com/tobiipro/babel-preset-firecloud/issues/2 .
 
-To enable in `.babelrc.js`:
 
-```js
-module.exports = {
-  presets: [
-    ['firecloud', {
-      'babel-plugin-firecloud-export-all': {
-        disabled: false
-      }
-    }]
-  ]
-};
-```
-
-### `babel-plugin-firecloud-src-arg` (disabled by default)
+### `babel-plugin-firecloud-src-arg` (default: disabled)
 
 Adds an extra argument with info about location (file/line/column) to calls of a function e.g. logger.
 

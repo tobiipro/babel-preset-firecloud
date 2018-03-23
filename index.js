@@ -102,12 +102,6 @@ module.exports = function(context, options) {
       useBuiltIns: options.useBuiltIns
     },
 
-    /* Disabling by-default, because can unexpectedly change how Chrome debugger works.
-    It will be looking for a variable "exports.foo", while you point at "foo" and fail. */
-    'babel-plugin-firecloud-export-all': {
-      disabled: true
-    },
-
     'babel-plugin-firecloud-src-arg': {
       disabled: true
     }
