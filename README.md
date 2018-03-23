@@ -81,6 +81,19 @@ export let foo = function() {
 because the source map will reference `exports.something`, while you still hover `something`.
 Tracked in https://github.com/tobiipro/babel-preset-firecloud/issues/2 .
 
+To disable in `.babelrc.js`:
+
+```js
+module.exports = {
+  presets: [
+    ['firecloud', {
+      'babel-plugin-firecloud-export-all': {
+        disabled: true
+      }
+    }]
+  ]
+};
+```
 
 ### `babel-plugin-firecloud-src-arg` (default: disabled)
 
