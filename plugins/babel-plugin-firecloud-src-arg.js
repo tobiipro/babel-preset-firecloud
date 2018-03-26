@@ -7,7 +7,6 @@ let isSrcFun = function({path, srcFuns}) {
   let c = path.get('callee');
 
   if (c.node.type === 'Identifier') {
-    // NOTE matchesPattern above doesn't work. Bug?!
     return _.some(srcFuns, function(fun) {
       return c.node.name === fun;
     });
@@ -20,9 +19,10 @@ let isSrcFun = function({path, srcFuns}) {
   }
 
   return false;
-}
+};
 
 module.exports = function() {
+  // eslint-disable-next-line fp/no-arguments
   let t = arguments[0].types;
 
   let getSrcFuns = _.once(function(options) {
@@ -46,14 +46,14 @@ module.exports = function() {
         let line;
         let column;
 
-        if (filePath.charAt(0) !== '/') {
-          relativePath = filePath;
-        } else {
+        if (filePath.charAt(0) === '/') {
           cwd = process.cwd();
           relativePath = filePath.substring(cwd.length + 1);
+        } else {
+          relativePath = filePath;
         }
 
-        line = path.node.loc.start.line;
+        ({line} = path.node.loc.start);
         column = path.node.loc.start.column + 1;
         // TODO get function name
 

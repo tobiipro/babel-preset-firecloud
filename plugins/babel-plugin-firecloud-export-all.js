@@ -1,17 +1,22 @@
+/* eslint-disable no-null/no-null*/
+
 // Transforms all top-level variables to be exported + appends "exports." to all references of them
 
 let _ = require('lodash');
 
 module.exports = function() {
+  // eslint-disable-next-line fp/no-arguments
   let t = arguments[0].types;
 
+  // eslint-disable-next-line lodash/prefer-noop
   let log = function() {
     // console.log.apply(console.log, arguments)
-  }
+  };
 
+  // eslint-disable-next-line lodash/prefer-noop
   let logVerbose = function() {
     // console.log.apply(console.log, arguments)
-  }
+  };
 
   let exportAllVisitor = {
 
@@ -23,7 +28,7 @@ module.exports = function() {
       }
 
       let identifierNode = path.node.declarations[0].id;
-      let name = identifierNode.name;
+      let {name} = identifierNode;
 
       // making sure that declaration has 'export' keyword
       if (path.parent.type !== 'ExportNamedDeclaration') {
@@ -35,7 +40,7 @@ module.exports = function() {
       // analyzing existing references to go through 'exports.'
       // those, which already do, are not found as references by AST
       let binding = path.scope.bindings[name];
-      let referencePaths = binding.referencePaths;
+      let {referencePaths} = binding;
 
       _.forEach(referencePaths, function(rp) {
         // includes declaration reference too, not interested
@@ -45,7 +50,7 @@ module.exports = function() {
 
         // all the references have to go through 'exports.'
         log(`Replacing reference with 'exports.' for ${name}`);
-        rp.replaceWith(t.memberExpression(t.identifier("exports"), t.identifier(name)));
+        rp.replaceWith(t.memberExpression(t.identifier('exports'), t.identifier(name)));
       });
     }
 
@@ -53,8 +58,7 @@ module.exports = function() {
 
   return {
     visitor: {
-      "Program": function(path, state) {
-
+      Program: function(path, _state) {
         log(`Processing file: ${this.file.opts.filename}`);
         path.traverse(exportAllVisitor);
       }

@@ -7,7 +7,7 @@ let context = {
 };
 
 let options = {
-  'debug': true
+  debug: true
 };
 
 preset(context, options);

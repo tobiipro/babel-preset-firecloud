@@ -1,12 +1,11 @@
 let _ = require('lodash');
+let babelPresetEnv = require('babel-preset-env');
+let pluginToMinTargets = require('babel-preset-env/data/plugins.json');
+let targetsParser = require('babel-preset-env/lib/targets-parser').default;
 
 let isPluginRequired = function(targets, pluginName) {
-  let targetsParser = require('babel-preset-env/lib/targets-parser').default;
-  let isPluginRequired = require('babel-preset-env').isPluginRequired;
-  let pluginToMinTargets = require('babel-preset-env/data/plugins.json');
-
   targets = targetsParser(targets);
-  let result = isPluginRequired(targets, pluginToMinTargets[pluginName]);
+  let result = babelPresetEnv.isPluginRequired(targets, pluginToMinTargets[pluginName]);
   return result;
 };
 
@@ -17,8 +16,10 @@ let debug = function(options) {
   }
 
   hasBeenLogged = true;
+  // eslint-disable-next-line no-console
   console.log('babel-preset-firecloud: `DEBUG` option');
-  console.log(JSON.stringify({options: options}, null, 2));
+  // eslint-disable-next-line no-console
+  console.log(JSON.stringify({options}, undefined, 2));
 };
 
 let presets = {
@@ -131,7 +132,7 @@ module.exports = function(context, options) {
     options['babel-preset-env'].include.push('transform-es2015-classes');
   }
 
-  _.each(options, function(_options, name) {
+  _.forEach(options, function(_options, name) {
     if (_.includes([
       'debug',
       'loose',
@@ -145,36 +146,40 @@ module.exports = function(context, options) {
       return;
     }
 
-    throw new Error('Preset/plugin ' +
-                    name +
-                    ' is unknown to babel-preset-firecloud. I know of ' +
-                    _.keys(presets).concat(_.keys(plugins)).join(', ') +
-                    '.');
+    throw new Error(`Preset/plugin ${
+                    name
+                    } is unknown to babel-preset-firecloud. I know of ${
+                    _.keys(presets).concat(_.keys(plugins)).join(', ')
+                    }.`);
   });
 
   debug(options);
 
   let configPresets = _.filter(_.map(presets, function(preset, name) {
-    let disabled = _.get(options, name + '.disabled');
+    let disabled = _.get(options, `${name}.disabled`);
     switch (disabled) {
     case true:
       return false;
     case false:
       delete options[name].disabled;
       break;
+    default:
+      throw new Error(`Unknown option for ${name}.disabled: ${disabled}.`);
     }
 
     return preset(context, options[name]);
   }), Boolean);
 
   let configPlugins = _.without(_.map(plugins, function(plugin, name) {
-    let disabled = _.get(options, name + '.disabled');
+    let disabled = _.get(options, `${name}.disabled`);
     switch (disabled) {
     case true:
       return undefined;
     case false:
       delete options[name].disabled;
       break;
+    default:
+      throw new Error(`Unknown option for ${name}.disabled: ${disabled}.`);
     }
 
     return [plugin, options[name]];
@@ -183,7 +188,7 @@ module.exports = function(context, options) {
   let config = {
     presets: configPresets,
     plugins: configPlugins
-  }
+  };
 
   return config;
 };
