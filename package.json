@@ -31,7 +31,7 @@
     "babel-eslint": "^7.2.3",
     "eclint": "^2.6.0",
     "eslint": "^4.19.1",
-    "eslint-config-firecloud": "git://github.com/tobiipro/eslint-config-firecloud.git#semver:~0.1.9",
+    "eslint-config-firecloud": "git://github.com/tobiipro/eslint-config-firecloud.git#semver:~0.2.2",
     "eslint-plugin-async-await": "0.0.0",
     "eslint-plugin-better": "^0.1.5",
     "eslint-plugin-dependencies": "^2.4.0",
