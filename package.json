@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
+    "babel-plugin-tester": "^5.0.0",
     "eclint": "^2.6.0",
     "eslint": "^4.19.1",
     "eslint-config-firecloud": "git://github.com/tobiipro/eslint-config-firecloud.git#semver:~0.2.2",
@@ -42,6 +43,7 @@
     "eslint-plugin-lodash": "^2.7.0",
     "eslint-plugin-mocha": "^4.12.1",
     "eslint-plugin-no-null": "^1.0.2",
+    "jest": "^22.4.3",
     "npm-publish-git": "git://github.com/andreineculau/npm-publish-git.git#semver:~0.0.8"
   },
   "scripts": {
