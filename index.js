@@ -163,6 +163,8 @@ module.exports = function(context, options) {
     case false:
       delete options[name].disabled;
       break;
+    case undefined:
+      break;
     default:
       throw new Error(`Unknown option for ${name}.disabled: ${disabled}.`);
     }
@@ -177,6 +179,8 @@ module.exports = function(context, options) {
       return undefined;
     case false:
       delete options[name].disabled;
+      break;
+    case undefined:
       break;
     default:
       throw new Error(`Unknown option for ${name}.disabled: ${disabled}.`);
