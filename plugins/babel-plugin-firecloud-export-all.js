@@ -5,24 +5,14 @@ module.exports = function() {
   // eslint-disable-next-line fp/no-arguments
   let t = arguments[0].types;
 
-  let _ensureDeclarationExported = function(binding) {
-    let declarationPath;
-
-    if (t.isVariableDeclarator(binding.path.node)) {
-      declarationPath = binding.path.parentPath;
-      t.assertVariableDeclaration(declarationPath);
-    }
-
-    if (t.isFunctionDeclaration(binding.path.node)) {
-      declarationPath = binding.path;
-    }
-
-    if (declarationPath && !t.isExportNamedDeclaration(declarationPath.parent)) {
-      declarationPath.replaceWith(t.exportNamedDeclaration(declarationPath.node, [], undefined));
+  let _ensureDeclarationExported = function(declaration) {
+    t.assertDeclaration(declaration);
+    if (!t.isExportNamedDeclaration(declaration.parent)) {
+      declaration.replaceWith(t.exportNamedDeclaration(declaration.node, []));
     }
   };
 
-  let _ensureAccessedWithExportsDot = function(binding) {
+  let _ensureBindingAccessedWithExportsDot = function(binding) {
     // analyzing existing references to go through 'exports.'
     // those, which already do, are not found as references by AST
     let {referencePaths} = binding;
@@ -40,22 +30,50 @@ module.exports = function() {
         return;
       }
 
-      let me = t.memberExpression(t.identifier('exports'), t.identifier(binding.identifier.name));
-      rp.replaceWith(me);
+      rp.replaceWith(
+        t.memberExpression(
+          t.identifier('exports'),
+          t.identifier(binding.identifier.name)));
     });
+  };
+
+  let _handleVariableDeclaratorBindings = function(bindings) {
+    // There can be multiple vars in 'VariableDeclarator'
+    // 'VariableDeclarator' is a part of 'VariableDeclaration'
+    // Only 'VariableDeclaration' should be exported
+    // example: let { a, b } = c;
+    //          ^^^^^^^^^^^^^^^^^  VariableDeclaration (should be exported)
+    //              ^^^^^^^^^^^^   VariableDeclarator
+    let variableDeclarations = _.map(bindings, function(binding) {
+      let declarationPath = binding.path.parentPath;
+      t.assertVariableDeclaration(declarationPath.node);
+      return declarationPath;
+    });
+    variableDeclarations = _.uniq(variableDeclarations);
+
+    _.forEach(variableDeclarations, _ensureDeclarationExported);
+    _.forEach(bindings, _ensureBindingAccessedWithExportsDot);
+  };
+
+  let _handleFunctionDeclarationBindings = function(bindings) {
+    let declarationPaths = _.map(bindings, 'path');
+    _.forEach(declarationPaths, _ensureDeclarationExported);
+    _.forEach(bindings, _ensureBindingAccessedWithExportsDot);
   };
 
   return {
     name: 'firecloud-export-all',
     visitor: {
       Program: function(path, _state) {
-        let topVariables = _.filter(path.scope.bindings, function(binding) {
-          return t.isVariableDeclarator(binding.path.node) ||
-                t.isFunctionDeclaration(binding.path.node);
+        let variableDeclaratorBindings = _.filter(path.scope.bindings, function(binding) {
+          return t.isVariableDeclarator(binding.path.node);
         });
+        _handleVariableDeclaratorBindings(variableDeclaratorBindings);
 
-        _.forEach(topVariables, _ensureDeclarationExported);
-        _.forEach(topVariables, _ensureAccessedWithExportsDot);
+        let functionDeclarationBindings = _.filter(path.scope.bindings, function(binding) {
+          return t.isFunctionDeclaration(binding.path.node);
+        });
+        _handleFunctionDeclarationBindings(functionDeclarationBindings);
       }
     }
   };

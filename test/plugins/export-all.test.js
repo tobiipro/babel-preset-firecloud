@@ -30,6 +30,16 @@ pluginTester({
       output: 'export let [a] = b;\nconsole.log(exports.a);'
     },
 
+    'should export and use exports. for ObjectPattern multiple': {
+      code: 'let {a, c} = b;console.log(a, c);',
+      output: 'export let { a, c } = b;\nconsole.log(exports.a, exports.c);'
+    },
+
+    'should export and use exports. for ArrayPattern multiple': {
+      code: 'let [a, c] = b;console.log(a, c);',
+      output: 'export let [a, c] = b;\nconsole.log(exports.a, exports.c);'
+    },
+
     'should not change shadowing local var': {
       code: newline([
         'let a = 1;',
