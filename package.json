@@ -39,7 +39,7 @@
     "eslint-plugin-firecloud": "git://github.com/tobiipro/eslint-plugin-firecloud.git#semver:~0.1.0",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.9.0",
-    "eslint-plugin-jest": "^21.15.0",
+    "eslint-plugin-jest": "^21.24.1",
     "eslint-plugin-lodash": "^2.7.0",
     "eslint-plugin-mocha": "^4.12.1",
     "eslint-plugin-no-null": "^1.0.2",
