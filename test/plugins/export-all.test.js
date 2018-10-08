@@ -1,7 +1,6 @@
 const _ = require('lodash');
 const pluginTester = require('babel-plugin-tester');
-
-let plugin = require('../../plugins/babel-plugin-firecloud-export-all');
+const plugin = require('../../plugins/babel-plugin-firecloud-export-all');
 
 let newline = function(lines) {
   return _.join(lines, '\n');
@@ -91,6 +90,11 @@ pluginTester({
         '',
         'exports.a();'
       ])
+    },
+
+    'should not export declarations with "require" in the RHS': {
+      code: 'let a = require("b");',
+      output: 'let a = require("b");'
     }
   }
 });

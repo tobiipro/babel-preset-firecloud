@@ -5,6 +5,20 @@ module.exports = function() {
   // eslint-disable-next-line fp/no-arguments
   let t = arguments[0].types;
 
+  let _isDeclarationValid = function(declaration) {
+    let declarationsInitedWithRequire = _.some(declaration.node.declarations, function(declarator) {
+      t.assertVariableDeclarator(declarator);
+      let {init} = declarator;
+      if (!t.isCallExpression(init) || !t.isIdentifier(init.callee)) {
+        return false;
+      }
+
+      return init.callee.name === 'require';
+    });
+
+    return !declarationsInitedWithRequire;
+  };
+
   let _ensureDeclarationExported = function(declaration) {
     t.assertDeclaration(declaration);
     if (!t.isExportNamedDeclaration(declaration.parent)) {
@@ -49,7 +63,9 @@ module.exports = function() {
       t.assertVariableDeclaration(declarationPath.node);
       return declarationPath;
     });
+
     variableDeclarations = _.uniq(variableDeclarations);
+    variableDeclarations = _.filter(variableDeclarations, _isDeclarationValid);
 
     _.forEach(variableDeclarations, _ensureDeclarationExported);
     _.forEach(bindings, _ensureBindingAccessedWithExportsDot);
