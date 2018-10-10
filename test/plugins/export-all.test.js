@@ -93,8 +93,14 @@ pluginTester({
     },
 
     'should not export declarations with "require" in the RHS': {
-      code: 'let a = require("b");',
-      output: 'let a = require("b");'
+      code: newline([
+        'let a = require("b");',
+        'a = 5;'
+      ]),
+      output: newline([
+        'let a = require("b");',
+        'a = 5;'
+      ])
     }
   }
 });

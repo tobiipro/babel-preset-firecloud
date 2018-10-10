@@ -67,6 +67,11 @@ module.exports = function() {
     variableDeclarations = _.uniq(variableDeclarations);
     variableDeclarations = _.filter(variableDeclarations, _isDeclarationValid);
 
+    // keep only bindings of included declarations
+    bindings = _.filter(bindings, function(binding) {
+      return _.includes(variableDeclarations, binding.path.parentPath);
+    });
+
     _.forEach(variableDeclarations, _ensureDeclarationExported);
     _.forEach(bindings, _ensureBindingAccessedWithExportsDot);
   };
