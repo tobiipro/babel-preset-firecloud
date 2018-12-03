@@ -165,5 +165,5 @@ module.exports = {
 [UNLICENSE](UNLICENSE)
 
 
-  [1]: https://travis-ci.org/tobiipro/babel-preset-firecloud
-  [2]: https://travis-ci.org/tobiipro/babel-preset-firecloud.svg?branch=master
+  [1]: https://travis-ci.com/tobiipro/babel-preset-firecloud
+  [2]: https://travis-ci.com/tobiipro/babel-preset-firecloud.svg?branch=master
