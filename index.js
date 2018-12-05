@@ -1,7 +1,7 @@
 let _ = require('lodash');
-let babelPresetEnv = require('babel-preset-env');
-let pluginToMinTargets = require('babel-preset-env/data/plugins.json');
-let targetsParser = require('babel-preset-env/lib/targets-parser').default;
+let babelPresetEnv = require('@babel/preset-env');
+let pluginToMinTargets = require('@babel/preset-env/data/plugins.json');
+let targetsParser = require('@babel/preset-env/lib/targets-parser').default;
 
 let isPluginRequired = function(targets, pluginName) {
   targets = targetsParser(targets);
@@ -23,17 +23,15 @@ let debug = function(options) {
 };
 
 let presets = {
-  'babel-preset-env': undefined
+  '@babel/preset-env': undefined
 };
 
 let plugins = {
   'babel-plugin-preval': undefined,
-  'babel-plugin-syntax-async-functions': undefined,
-  'babel-plugin-syntax-dynamic-import': undefined,
-  'babel-plugin-transform-async-to-module-method': undefined,
-  'babel-plugin-transform-class-properties': undefined,
-  'babel-plugin-transform-exponentiation-operator': undefined,
-  'babel-plugin-transform-object-rest-spread': undefined
+  '@babel/plugin-syntax-dynamic-import': undefined,
+  '@babel/plugin-proposal-class-properties': undefined,
+  '@babel/plugin-transform-exponentiation-operator': undefined,
+  '@babel/plugin-syntax-object-rest-spread': undefined
 };
 
 let firecloudPlugins = {
@@ -68,38 +66,39 @@ module.exports = function(context, options) {
   options = _.defaults(options || {}, {
     spec: false,
     loose: false,
-    useBuiltIns: true
+    useBuiltIns: 'usage'
   });
 
+  // FIXME temporary backward compat
   options = _.defaults(options, {
-    'babel-preset-env': {
+    '@babel/preset-env': options['babel-preset-env'],
+    '@babel/plugin-syntax-dynamic-import': options['babel-plugin-syntax-dynamic-import'],
+    '@babel/plugin-proposal-class-properties': options['babel-plugin-transform-class-properties'],
+    '@babel/plugin-transform-exponentiation-operator': options['babel-plugin-transform-exponentiation-operator'],
+    '@babel/plugin-syntax-object-rest-spread': options['babel-plugin-transform-object-rest-spread']
+  });
+  delete options['babel-preset-env'];
+  delete options['babel-plugin-syntax-dynamic-import'];
+  delete options['babel-plugin-transform-class-properties'];
+  delete options['babel-plugin-transform-exponentiation-operator'];
+  delete options['babel-plugin-transform-object-rest-spread'];
+
+  options = _.defaults(options, {
+    '@babel/preset-env': {
       targets: {
         browsers: [
           'last 2 Chrome versions'
         ],
         node: 'current'
       }
-    },
-
-    'babel-plugin-transform-async-to-module-method': {
-      module: 'bluebird/js/release/bluebird',
-      method: 'coroutine'
     }
   });
 
   options = _.defaultsDeep(options, {
-    'babel-preset-env': {
+    '@babel/preset-env': {
       debug: options.debug,
       loose: options.loose,
       spec: options.spec,
-      useBuiltIns: options.useBuiltIns
-    },
-
-    'babel-plugin-transform-async-to-module-method': {
-      disabled: true
-    },
-
-    'babel-plugin-transform-object-rest-spread': {
       useBuiltIns: options.useBuiltIns
     },
 
@@ -109,27 +108,18 @@ module.exports = function(context, options) {
   });
 
   let asyncToGeneratorIsRequired = isPluginRequired(
-    options['babel-preset-env'].targets,
+    options['@babel/preset-env'].targets,
     'transform-async-to-generator'
   );
 
   if (asyncToGeneratorIsRequired) {
-    // enable preferred plugin for supporting async/await syntax
-    options['babel-plugin-transform-async-to-module-method'].disabled = false;
-  }
-
-  let isAsyncToModuleMethodEnabled =
-    _.get(options, 'babel-plugin-transform-async-to-module-method.disabled') !== true;
-
-  if (isAsyncToModuleMethodEnabled) {
-    // disable vanilla plugin for supporting async/await syntax
-    // the same work is done now by 'babel-plugin-transform-async-to-module-method'
-    options['babel-preset-env'].exclude = options['babel-preset-env'].exclude || [];
-    options['babel-preset-env'].exclude.push('transform-async-to-generator');
-
-    // enable support for async/await class methods
-    options['babel-preset-env'].include = options['babel-preset-env'].include || [];
-    options['babel-preset-env'].include.push('transform-es2015-classes');
+    // use bluebird instead of generators
+    let asyncToGeneratorOptions =
+        options['@babel/preset-env']['@babel/plugin-transform-async-to-generator'] || {
+          module: 'bluebird/js/release/bluebird',
+          method: 'coroutine'
+        };
+    options['@babel/preset-env']['@babel/plugin-transform-async-to-generator'] = asyncToGeneratorOptions;
   }
 
   _.forEach(options, function(_options, name) {
