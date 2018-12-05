@@ -7,8 +7,8 @@ endif
 
 include support-firecloud/repo/mk/js.common.node.mk
 include support-firecloud/repo/mk/js.check.eslint.mk
-include support-firecloud/repo/mk/js.publish.npg.mk
 include support-firecloud/repo/mk/js.test.jest.mk
+include support-firecloud/repo/mk/js.publish.npg.mk
 
 # ------------------------------------------------------------------------------
 
