@@ -70,22 +70,6 @@ module.exports = function(context, options) {
     useBuiltIns: 'usage'
   });
 
-  // FIXME temporary backward compat
-  options = _.defaults(options, {
-    '@babel/plugin-proposal-class-properties': options['babel-plugin-transform-class-properties'],
-    '@babel/plugin-syntax-dynamic-import': options['babel-plugin-syntax-dynamic-import'],
-    '@babel/plugin-syntax-object-rest-spread': options['babel-plugin-transform-object-rest-spread'],
-    '@babel/plugin-transform-async-to-generator': options['babel-plugin-transform-async-to-module-method'],
-    '@babel/plugin-transform-exponentiation-operator': options['babel-plugin-transform-exponentiation-operator'],
-    '@babel/preset-env': options['babel-preset-env']
-  });
-  delete options['babel-plugin-syntax-dynamic-import'];
-  delete options['babel-plugin-transform-async-to-module-method'];
-  delete options['babel-plugin-transform-class-properties'];
-  delete options['babel-plugin-transform-exponentiation-operator'];
-  delete options['babel-plugin-transform-object-rest-spread'];
-  delete options['babel-preset-env'];
-
   options = _.defaults(options, {
     '@babel/preset-env': {
       targets: {
