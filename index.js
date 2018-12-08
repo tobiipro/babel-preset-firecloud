@@ -128,11 +128,8 @@ module.exports = function(context, options) {
       return;
     }
 
-    throw new Error(`Preset/plugin ${
-                    name
-                    } is unknown to babel-preset-firecloud. I know of ${
-                    _.keys(presets).concat(_.keys(plugins)).join(', ')
-                    }.`);
+    let knownPP = _.concat(_.keys(presets), _.keys(plugins));
+    throw new Error(`Preset/plugin ${name} is unknown to babel-preset-firecloud. I know of ${_.join(knownPP, ',')}.`);
   });
 
   debug(options);
