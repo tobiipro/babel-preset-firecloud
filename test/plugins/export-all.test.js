@@ -1,6 +1,6 @@
-const _ = require('lodash');
-const pluginTester = require('babel-plugin-tester');
-const plugin = require('../../plugins/babel-plugin-firecloud-export-all');
+let _ = require('lodash');
+let pluginTester = require('babel-plugin-tester');
+let plugin = require('../../plugins/babel-plugin-firecloud-export-all');
 
 let newline = function(lines) {
   return _.join(lines, '\n');
