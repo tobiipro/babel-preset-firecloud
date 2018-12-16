@@ -67,7 +67,7 @@ module.exports = function(context, options) {
   options = _.defaults(options || {}, {
     spec: false,
     loose: false,
-    useBuiltIns: 'usage'
+    useBuiltIns: 'entry'
   });
 
   options = _.defaults(options, {
