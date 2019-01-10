@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-NPM_INSTALL_CMD="${NPM_INSTALL_CMD:-npm install --save-dev}"
+NPM_INSTALL_CMD="${NPM_INSTALL_CMD:-npm install --no-save}"
 
 # https://stackoverflow.com/a/246128/465684
 SOURCE=${BASH_SOURCE[0]}
@@ -54,6 +54,10 @@ node -e " \
               grep -q "^false$" || \
               continue
         }
+
+        # cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${VSN}\"}" < package.json)" > package.json
+        cat <<< "$(npx json "this.devDependencies = this.devDependencies || {}" < package.json)" > package.json
+        cat <<< "$(npx json "this.devDependencies[\"${NAME}\"] = \"${VSN}\"" < package.json)" > package.json
 
         # NOTE: assumes all peerDeps have semver vers, not git urls, etc
         NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${VSN}"
