@@ -56,8 +56,8 @@ node -e " \
         }
 
         # cat <<< "$(jq ".devDependencies += {\"${NAME}\": \"${VSN}\"}" < package.json)" > package.json
-        cat <<< "$(npx json -e "this.devDependencies = this.devDependencies || {}" < package.json)" > package.json
-        cat <<< "$(npx json -e "this.devDependencies[\"${NAME}\"] = \"${VSN}\"" < package.json)" > package.json
+        npx json -q -I -f package.json -e "this.devDependencies = this.devDependencies || {}"
+        npx json -q -I -f package.json -e "this.devDependencies[\"${NAME}\"] = \"${VSN}\""
 
         # NOTE: assumes all peerDeps have semver vers, not git urls, etc
         NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${VSN}"
