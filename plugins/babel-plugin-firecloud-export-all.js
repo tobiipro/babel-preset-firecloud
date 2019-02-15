@@ -8,7 +8,9 @@ module.exports = function() {
   let _isDeclarationValid = function(declaration) {
     let declarationsInitedWithRequire = _.some(declaration.node.declarations, function(declarator) {
       t.assertVariableDeclarator(declarator);
-      let {init} = declarator;
+      let {
+        init
+      } = declarator;
       if (!t.isCallExpression(init) || !t.isIdentifier(init.callee)) {
         return false;
       }
@@ -29,7 +31,9 @@ module.exports = function() {
   let _ensureBindingAccessedWithExportsDot = function(binding) {
     // analyzing existing references to go through 'exports.'
     // those, which already do, are not found as references by AST
-    let {referencePaths} = binding;
+    let {
+      referencePaths
+    } = binding;
 
     _.forEach(referencePaths, function(rp) {
       if (!t.isIdentifier(rp.node)) {

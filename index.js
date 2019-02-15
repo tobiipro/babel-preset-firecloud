@@ -19,7 +19,9 @@ let debug = function(options) {
   // eslint-disable-next-line no-console
   console.log('babel-preset-firecloud: `DEBUG` option');
   // eslint-disable-next-line no-console
-  console.log(JSON.stringify({options}, undefined, 2));
+  console.log(JSON.stringify({
+    options
+  }, undefined, 2));
 };
 
 let presets = {
@@ -165,7 +167,10 @@ module.exports = function(context, options) {
       throw new Error(`Unknown option for ${name}.disabled: ${disabled}.`);
     }
 
-    return [plugin, options[name]];
+    return [
+      plugin,
+      options[name]
+    ];
   }), undefined);
 
   let config = {

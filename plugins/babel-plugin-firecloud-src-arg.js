@@ -53,7 +53,9 @@ module.exports = function() {
           relativePath = filePath;
         }
 
-        ({line} = path.node.loc.start);
+        ({
+          line
+        } = path.node.loc.start);
         column = path.node.loc.start.column + 1;
         // TODO get function name
 
