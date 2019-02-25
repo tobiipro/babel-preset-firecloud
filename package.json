@@ -2,7 +2,7 @@
   "private": true,
   "name": "babel-preset-firecloud",
   "description": "The Babel preset used within Tobii Cloud Services.",
-  "version": "0.2.1",
+  "version": "0.2.0",
   "license": "Unlicense",
   "files": [
     "/UNLICENSE",
