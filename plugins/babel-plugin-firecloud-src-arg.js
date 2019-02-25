@@ -40,17 +40,17 @@ module.exports = function() {
           return;
         }
 
-        let filePath = this.file.log.filename;
+        let file = this.file.log.filename;
         let cwd;
-        let relativePath;
+        let relativeFile;
         let line;
         let column;
 
-        if (filePath.charAt(0) === '/') {
+        if (file.charAt(0) === '/') {
           cwd = process.cwd();
-          relativePath = filePath.substring(cwd.length + 1);
+          relativeFile = file.substring(cwd.length + 1);
         } else {
-          relativePath = filePath;
+          relativeFile = file;
         }
 
         ({
@@ -59,14 +59,34 @@ module.exports = function() {
         column = path.node.loc.start.column + 1;
         // TODO get function name
 
+        // {_babelSrc: {
+        //   file: typeof __filename === 'undefined' ? <babelFile> : __filename,
+        //   babelFile: ...,
+        //   line: ...,
+        //   column: ...
+        // }}
+        // eslint-disable-next-line camelcase
+        let typeOf__filename = t.unaryExpression('typeof', t.identifier('__filename'));
+        // eslint-disable-next-line camelcase
+        let istypeOf__filenameUndefined = t.binaryExpression(
+          '===',
+          typeOf__filename,
+          t.stringLiteral('undefined')
+        );
         let src = t.objectExpression([
-          t.objectProperty(t.identifier('file'), t.stringLiteral(relativePath)),
+          t.objectProperty(t.identifier('file'), t.conditionalExpression(
+            istypeOf__filenameUndefined,
+            t.stringLiteral(relativeFile),
+            t.identifier('__filename')
+          )),
+          t.objectProperty(t.identifier('babelFile'), t.stringLiteral(relativeFile)),
           t.objectProperty(t.identifier('line'), t.numericLiteral(line)),
           t.objectProperty(t.identifier('column'), t.numericLiteral(column))
         ]);
         let srcArg = t.objectExpression([
           t.objectProperty(t.identifier('_babelSrc'), src)
         ]);
+
         path.node.arguments.unshift(srcArg);
       }
     }
