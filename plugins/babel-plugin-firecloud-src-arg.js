@@ -40,7 +40,7 @@ module.exports = function() {
           return;
         }
 
-        let filePath = this.file.opts.filename;
+        let filePath = this.file.log.filename;
         let cwd;
         let relativePath;
         let line;
