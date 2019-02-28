@@ -21,7 +21,7 @@ pluginTester({
 
     'should export and use exports. for ObjectPattern': {
       code: 'let {a} = b;console.log(a);',
-      output: 'export let { a } = b;\nconsole.log(exports.a);'
+      output: 'export let {\n  a\n} = b;\nconsole.log(exports.a);'
     },
 
     'should export and use exports. for ArrayPattern': {
@@ -31,7 +31,7 @@ pluginTester({
 
     'should export and use exports. for ObjectPattern multiple': {
       code: 'let {a, c} = b;console.log(a, c);',
-      output: 'export let { a, c } = b;\nconsole.log(exports.a, exports.c);'
+      output: 'export let {\n  a,\n  c\n} = b;\nconsole.log(exports.a, exports.c);'
     },
 
     'should export and use exports. for ArrayPattern multiple': {
@@ -87,7 +87,6 @@ pluginTester({
       ]),
       output: newline([
         'export function a(c) {}',
-        '',
         'exports.a();'
       ])
     },
@@ -99,6 +98,7 @@ pluginTester({
       ]),
       output: newline([
         'let a = require("b");',
+        '',
         'a = 5;'
       ])
     }
