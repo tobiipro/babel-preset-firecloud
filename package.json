@@ -41,7 +41,7 @@
     "babel-plugin-tester": "^5.0.0",
     "eclint": "^2.6.0",
     "eslint": "^5.9.0",
-    "eslint-config-firecloud": "git://github.com/tobiipro/eslint-config-firecloud.git#semver:~0.5.0",
+    "eslint-config-firecloud": "git://github.com/tobiipro/eslint-config-firecloud.git#semver:~0.6.0",
     "eslint-plugin-async-await": "^0.0.0",
     "eslint-plugin-better": "^0.1.5",
     "eslint-plugin-dependencies": "^2.4.0",
@@ -51,7 +51,6 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^22.1.0",
     "eslint-plugin-lodash": "^5.0.1",
-    "eslint-plugin-mocha": "^5.2.0",
     "eslint-plugin-no-null": "^1.0.2",
     "jest": "^24.1.0",
     "npm-publish-git": "git://github.com/andreineculau/npm-publish-git.git#semver:~0.0.8"
