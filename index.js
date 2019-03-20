@@ -1,26 +1,12 @@
 let _ = require('lodash');
+let babelPresetEnv = require('@babel/preset-env');
 let pluginToMinTargets = require('@babel/preset-env/data/plugins.json');
 let targetsParser = require('@babel/preset-env/lib/targets-parser').default;
 
 let isPluginRequired = function(targets, pluginName) {
   targets = targetsParser(targets);
-  // @babel/preset-env@7.4.0 had a breaking change;
-  // see https://github.com/babel/babel/issues/9707
-  let result;
-
-  let oldIsPluginRequired = require('@babel/preset-env').isPluginRequired;
-  if (_.isFunction(oldIsPluginRequired)) {
-    result = oldIsPluginRequired(targets, pluginToMinTargets[pluginName]);
-    return result;
-  }
-
-  let newIsPluginRequired = require('@babel/preset-env/lib/filter-items').isPluginRequired;
-  if (_.isFunction(newIsPluginRequired)) {
-    result = newIsPluginRequired(targets, pluginToMinTargets[pluginName]);
-    return result;
-  }
-
-  throw new Error('Cannot find a isPluginRequired function');
+  let result = babelPresetEnv.isPluginRequired(targets, pluginToMinTargets[pluginName]);
+  return result;
 };
 
 let hasBeenLogged = false;
