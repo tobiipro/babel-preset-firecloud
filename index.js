@@ -38,6 +38,7 @@ let plugins = {
 };
 
 let firecloudPlugins = {
+  'babel-plugin-firecloud-await-trace': undefined,
   'babel-plugin-firecloud-export-all': undefined,
   'babel-plugin-firecloud-src-arg': undefined
 };
