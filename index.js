@@ -70,7 +70,8 @@ module.exports = function(context, options) {
   options = _.defaults(options || {}, {
     spec: false,
     loose: false,
-    useBuiltIns: 'entry'
+    useBuiltIns: 'entry',
+    corejs: undefined
   });
 
   options = _.defaults(options, {
@@ -89,7 +90,8 @@ module.exports = function(context, options) {
       debug: options.debug,
       loose: options.loose,
       spec: options.spec,
-      useBuiltIns: options.useBuiltIns
+      useBuiltIns: options.useBuiltIns,
+      corejs: options.corejs || options.useBuiltIns ? 2 : undefined
     },
 
     '@babel/plugin-transform-async-to-generator': {
@@ -122,7 +124,8 @@ module.exports = function(context, options) {
       'debug',
       'loose',
       'spec',
-      'useBuiltIns'
+      'useBuiltIns',
+      'corejs'
     ], name)) {
       return;
     }

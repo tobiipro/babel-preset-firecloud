@@ -28,6 +28,7 @@
     "@babel/plugin-transform-exponentiation-operator": "^7.2.0",
     "@babel/preset-env": "~7.3.4",
     "babel-plugin-preval": "^3.0.1",
+    "core-js": "^2.6.5",
     "lodash": "^4.17.5"
   },
   "devDependencies": {
