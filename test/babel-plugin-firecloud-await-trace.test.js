@@ -21,7 +21,7 @@ pluginTester({
       ].join('\n'),
       output: [
         'async function main() {',
-        '  await async function (createError) {',
+        '  await (async createError => {',
         '    try {',
         '      return await asyncFun();',
         '    } catch (_awaitTraceErr) {',
@@ -29,7 +29,7 @@ pluginTester({
         '      _awaitTraceErr.stack += "\\n...\\n" + err.stack;',
         '      throw _awaitTraceErr;',
         '    }',
-        '  }(() => new Error());',
+        '  })(() => new Error());',
         '}'
       ].join('\n')
     },
@@ -46,7 +46,7 @@ pluginTester({
         'async function main() {',
         '  let _awaitTraceErr;',
         '',
-        '  await async function (createError) {',
+        '  await (async createError => {',
         '    try {',
         '      return await asyncFun();',
         '    } catch (_awaitTraceErr2) {',
@@ -54,7 +54,7 @@ pluginTester({
         '      _awaitTraceErr2.stack += "\\n...\\n" + err.stack;',
         '      throw _awaitTraceErr2;',
         '    }',
-        '  }(() => new Error());',
+        '  })(() => new Error());',
         '}'
       ].join('\n')
     },
@@ -67,7 +67,7 @@ pluginTester({
       ].join('\n'),
       output: [
         'async function main() {',
-        '  let a = await async function (createError) {',
+        '  let a = await (async createError => {',
         '    try {',
         '      return await asyncFun();',
         '    } catch (_awaitTraceErr) {',
@@ -75,7 +75,7 @@ pluginTester({
         '      _awaitTraceErr.stack += "\\n...\\n" + err.stack;',
         '      throw _awaitTraceErr;',
         '    }',
-        '  }(() => new Error());',
+        '  })(() => new Error());',
         '}'
       ].join('\n')
     }

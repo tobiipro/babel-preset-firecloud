@@ -55,11 +55,8 @@ module.exports = function() {
           , t.catchClause(uniqAwaitTraceErr, t.blockStatement(amendErrStack))
         );
 
-        // await (async function(createErr) { ... })(() => new Error())
-        let replacement = t.awaitExpression(t.callExpression(t.functionExpression(
-          // id
-          // eslint-disable-next-line no-null/no-null
-          null,
+        // await (async (createErr) => { ... })(() => new Error())
+        let replacement = t.awaitExpression(t.callExpression(t.arrowFunctionExpression(
           // params
           [
             t.identifier('createError')
@@ -68,8 +65,6 @@ module.exports = function() {
           t.blockStatement([
             tryCatch
           ]),
-          // generator
-          false,
           // async
           true
         ), [
