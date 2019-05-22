@@ -2,6 +2,7 @@
 set -euo pipefail
 
 NPM_INSTALL_CMD="${NPM_INSTALL_CMD:-npm install --no-save}"
+NPM_SORT_DEV_CMD="${NPM_SORT_DEV_CMD:-npm remove --save-dev some-pkg-that-doesnt-exist}"
 
 # https://stackoverflow.com/a/246128/465684
 SOURCE=${BASH_SOURCE[0]}
@@ -62,5 +63,8 @@ node -e " \
         # NOTE: assumes all peerDeps have semver vers, not git urls, etc
         NPM_PEER_DEPS="${NPM_PEER_DEPS} ${NAME}@${VSN}"
     done
-    [ -z "${NPM_PEER_DEPS}" ] || ${NPM_INSTALL_CMD} ${NPM_PEER_DEPS}
+    [ -z "${NPM_PEER_DEPS}" ] || {
+      ${NPM_INSTALL_CMD} ${NPM_PEER_DEPS}
+      ${NPM_SORT_DEV_CMD}
+    }
 }
