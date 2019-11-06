@@ -96,12 +96,20 @@ module.exports = function() {
     visitor: {
       Program: function(path, _state) {
         let variableDeclaratorBindings = _.filter(path.scope.bindings, function(binding) {
-          return t.isVariableDeclarator(binding.path.node);
+          if (!t.isVariableDeclarator(binding.path.node)) {
+            return false;
+          }
+
+          return true;
         });
         _handleVariableDeclaratorBindings(variableDeclaratorBindings);
 
         let functionDeclarationBindings = _.filter(path.scope.bindings, function(binding) {
-          return t.isFunctionDeclaration(binding.path.node);
+          if (!t.isFunctionDeclaration(binding.path.node)) {
+            return false;
+          }
+
+          return true;
         });
         _handleFunctionDeclarationBindings(functionDeclarationBindings);
       }
