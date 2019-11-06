@@ -40,6 +40,11 @@ module.exports = function() {
         return;
       }
 
+      // ignore typescript
+      if (/^TS/.test(rp.parent.type)) {
+        return;
+      }
+
       let isPartOfDeclaration = rp.findParent(function(path) {
         return path === binding.path;
       });
