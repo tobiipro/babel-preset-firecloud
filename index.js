@@ -30,6 +30,8 @@ let presets = {
 
 let plugins = {
   '@babel/plugin-proposal-class-properties': undefined,
+  '@babel/plugin-proposal-nullish-coalescing-operator': undefined,
+  '@babel/plugin-proposal-optional-chaining': undefined,
   '@babel/plugin-syntax-dynamic-import': undefined,
   '@babel/plugin-syntax-object-rest-spread': undefined,
   '@babel/plugin-transform-async-to-generator': undefined,
