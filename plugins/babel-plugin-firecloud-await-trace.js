@@ -1,7 +1,7 @@
 // see  https://github.com/amio-io/await-trace/blob/master/src/main.js
 
 module.exports = function() {
-  // eslint-disable-next-line fp/no-arguments
+  // eslint-disable-next-line fp/no-arguments, prefer-rest-params
   let t = arguments[0].types;
 
 

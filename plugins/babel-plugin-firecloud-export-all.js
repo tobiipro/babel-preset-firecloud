@@ -2,7 +2,7 @@
 let _ = require('lodash');
 
 module.exports = function() {
-  // eslint-disable-next-line fp/no-arguments
+  // eslint-disable-next-line fp/no-arguments, prefer-rest-params
   let t = arguments[0].types;
 
   let _isDeclarationValid = function(declaration) {
